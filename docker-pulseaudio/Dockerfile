@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM raspbian/stretch:latest
 
 RUN apt-get update \
     && apt-get install -y --force-yes apt-transport-https \
@@ -15,9 +15,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --yes alsa-utils \
 	pulseaudio-utils \
 	--no-install-recommends 
 
-RUN bash -c  'echo "deb [trusted=yes] https://debian.snips.ai/stretch stable main" > /etc/apt/sources.list.d/snips.list' 
-
-RUN apt-get update 
+RUN bash -c 'echo "deb https://raspbian.snips.ai/stretch stable main" > /etc/apt/sources.list.d/snips.list'
+RUN apt-key adv --fetch-keys  https://raspbian.snips.ai/531DD1A7B702B14D.pub
+RUN apt-get update
+ 
 RUN apt-get install -y snips-platform-voice snips-watch snips-platform-demo 
 RUN apt-get install -y snips-template snips-skill-server
 
